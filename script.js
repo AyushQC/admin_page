@@ -1,5 +1,5 @@
 // Configuration
-const API_BASE_URL = 'https://collegeapi-mnni.onrender.com';
+const API_BASE_URL = 'https://collegeapi-mnni.onrender.com/api';
 
 // Global variables
 let currentUser = null;

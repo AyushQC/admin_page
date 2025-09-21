@@ -59,21 +59,30 @@ function getAuthHeaders() {
     if (!currentUser) return {};
     
     const credentials = btoa(`${currentUser.username}:${currentUser.password}`);
+    console.log('Auth credentials for user:', currentUser.username); // Debug log
     return {
-        'Authorization': `Basic ${credentials}`,
-        'Content-Type': 'application/json'
+        'Authorization': `Basic ${credentials}`
     };
 }
 
 async function makeAPIRequest(endpoint, options = {}) {
     try {
         const url = `${API_BASE_URL}${endpoint}`;
+        
+        // Prepare headers
+        const headers = {
+            ...getAuthHeaders(),
+            ...options.headers
+        };
+        
+        // Add Content-Type for requests with JSON body
+        if (options.body && typeof options.body === 'string') {
+            headers['Content-Type'] = 'application/json';
+        }
+        
         const response = await fetch(url, {
             ...options,
-            headers: {
-                ...getAuthHeaders(),
-                ...options.headers
-            }
+            headers
         });
         
         if (!response.ok) {
@@ -513,20 +522,23 @@ document.addEventListener('DOMContentLoaded', () => {
             showLoading();
             loginError.style.display = 'none';
             
-            // Test authentication with API
-            const testUser = { username, password };
+            // Test authentication with API using an admin endpoint
             const credentials = btoa(`${username}:${password}`);
             
-            const response = await fetch(`${API_BASE_URL}/colleges`, {
+            const response = await fetch(`${API_BASE_URL}/colleges/export`, {
+                method: 'HEAD', // Just check if we can access admin endpoint
                 headers: {
                     'Authorization': `Basic ${credentials}`
                 }
             });
             
-            if (response.ok) {
+            if (response.ok || response.status === 405) {
+                // 405 Method Not Allowed is OK, means auth worked but HEAD not supported
                 login(username, password);
-            } else {
+            } else if (response.status === 401) {
                 throw new Error('Invalid credentials');
+            } else {
+                throw new Error('Unable to connect to API');
             }
             
         } catch (error) {

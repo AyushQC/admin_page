@@ -6,7 +6,7 @@ This guide will help you deploy your College API Admin Panel to GitHub Pages for
 
 - GitHub account
 - Git installed on your computer
-- Your College API running at `https://collegeapi-mnni.onrender.com`
+- Your College API running at `https://collegeapi-mnni.onrender.com/api`
 
 ## 🔧 Step-by-Step Deployment
 
@@ -96,7 +96,7 @@ To update your admin panel:
 ## 🔗 URL Configuration
 
 Your admin panel is already configured to use:
-- **API URL**: `https://collegeapi-mnni.onrender.com`
+- **API URL**: `https://collegeapi-mnni.onrender.com/api`
 - **Authentication**: HTTP Basic Auth (same credentials as your API)
 
 No changes needed for GitHub Pages deployment!

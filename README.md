@@ -52,7 +52,7 @@ Use the same credentials configured in your API's `.env` file:
 ## 🏥 API Integration
 
 The admin panel is configured to work with your deployed API:
-- **API URL**: `https://collegeapi-mnni.onrender.com`
+- **API URL**: `https://collegeapi-mnni.onrender.com/api` (updated with /api prefix)
 - **Authentication**: HTTP Basic Auth
 - **CORS**: Enabled for cross-origin requests
 
